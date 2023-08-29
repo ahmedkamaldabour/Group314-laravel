@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,4 +20,38 @@ use Illuminate\Support\Facades\Route;
 //});
 //
 
-Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+Route::group(
+    [
+        'prefix' => 'admin',
+        'as' => 'admin.',
+    ]
+    , function () {
+    // login
+    Route::group(
+        [
+            'middleware' => ['guest'],
+            'controller' => LoginController::class
+        ]
+        , function () {
+        Route::get('/login', 'loginPage')->name('loginPage');
+        Route::post('/login', 'login')->name('login');
+        Route::get('/logout', 'logout')->name('logout')
+            ->middleware('auth')->withoutMiddleware('guest');
+
+    });
+    // admin
+    Route::group(
+        [
+            'middleware' => ['auth', 'checkIsAdmin'],
+        ]
+        , function () {
+        Route::get('/', [AdminController::class, 'index'])->name('index');
+
+    });
+
+});
+
+
+
+
+
