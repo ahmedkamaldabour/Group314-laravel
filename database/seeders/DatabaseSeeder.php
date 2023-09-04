@@ -16,18 +16,19 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-         \App\Models\User::create([
-             'name' => 'ahmed',
-             'email' => 'admin@admin.com',
-             'password' => bcrypt('123456'),
-             'phone' => '01000000000',
-             'role' => 'admin',
-         ]);
+//         \App\Models\User::create([
+//             'name' => 'ahmed',
+//             'email' => 'admin@admin.com',
+//             'password' => bcrypt('123456'),
+//             'phone' => '01000000000',
+//             'role' => 'admin',
+//         ]);
 
         // call MajorSeeder
         $this->call(
             [
-//                MajorSeeder::class,
+                MajorSeeder::class,
+                DoctorSeeder::class,
             ]
         );
     }

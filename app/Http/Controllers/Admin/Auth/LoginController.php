@@ -20,18 +20,31 @@ class LoginController extends Controller
         if(auth()->attempt($credentials) && (auth()->user()->role == 'admin')){
             return redirect()->route('admin.index');
         }
-        $this->handellogout();
+        $this->handlelogout();
         return redirect()->back()->with(['error' => 'Invalid Credentials']);
     }
     public function logout()
     {
-        $this->handellogout();
+        $this->handlelogout();
         return redirect()->route('admin.loginPage');
     }
 
-    private function handellogout()
+    private function handlelogout()
     {
         Auth::logout();
         request()->session()->invalidate();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+//->withInput(['email' => request()->email])

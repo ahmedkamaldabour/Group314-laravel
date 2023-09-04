@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\DoctorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,8 +47,27 @@ Route::group(
         ]
         , function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');
-
     });
+
+    // doctor
+
+    Route::group(
+        [
+            'prefix' => 'doctor',
+            'as' => 'doctor.',
+            'middleware' => ['auth', 'checkIsAdmin'],
+        ]
+        , function () {
+        Route::get('/', [DoctorController::class, 'index'])->name('index');
+        Route::get('/create', [DoctorController::class, 'create'])->name('create');
+        Route::post('/store', [DoctorController::class, 'store'])->name('store');
+        Route::get('/edit/{doctor}', [DoctorController::class, 'edit'])->name('edit');
+        Route::put('/update/{doctor}', [DoctorController::class, 'update'])->name('update');
+        Route::get('/delete/{doctor}', [DoctorController::class, 'destroy'])->name('destroy');
+    });
+
+
+
 
 });
 
